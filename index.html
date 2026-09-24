@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#006c35">
+<title>ماراثون كيمياء الوطن | اليوم الوطني</title>
+<style>
+:root{
+  --green:#006c35;
+  --green2:#078647;
+  --green3:#eaf7ef;
+  --dark:#123524;
+  --gold:#c8a951;
+  --white:#ffffff;
+  --gray:#66756d;
+  --light:#f6faf7;
+  --danger:#b3261e;
+  --shadow:0 14px 40px rgba(0,60,30,.12);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Segoe UI","Tahoma",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(0,108,53,.08),transparent 25%),
+    radial-gradient(circle at 90% 90%,rgba(200,169,81,.10),transparent 25%),
+    var(--light);
+  color:var(--dark);
+  min-height:100vh;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.top-decoration{
+  height:8px;
+  background:linear-gradient(90deg,var(--green),var(--gold),var(--green));
+}
+header{
+  padding:18px 5vw 10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:800;
+  color:var(--green);
+}
+.brand-badge{
+  width:46px;height:46px;border-radius:50%;
+  background:var(--green);color:#fff;
+  display:grid;place-items:center;font-size:23px;
+  box-shadow:0 7px 18px rgba(0,108,53,.22);
+}
+.small-btn{
+  border:1px solid #cfe3d6;
+  background:#fff;color:var(--green);
+  border-radius:14px;padding:10px 15px;
+  font-weight:700;
+}
+main{width:min(1050px,92vw);margin:0 auto 35px;flex:1}
+.screen{display:none}
+.screen.active{display:block}
+.hero{
+  text-align:center;
+  padding:34px 18px 20px;
+}
+.flag-mark{
+  font-size:55px;
+  margin-bottom:5px;
+  filter:drop-shadow(0 7px 10px rgba(0,0,0,.12));
+}
+h1{
+  margin:5px 0 8px;
+  color:var(--green);
+  font-size:clamp(30px,5vw,54px);
+  line-height:1.15;
+}
+.subtitle{
+  margin:0 auto;
+  max-width:750px;
+  color:var(--gray);
+  font-size:18px;
+  line-height:1.8;
+}
+.station-strip{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:9px;
+  margin:25px auto;
+}
+.pill{
+  padding:9px 14px;border-radius:999px;
+  background:#fff;border:1px solid #dcebe1;
+  color:var(--green);font-weight:700;font-size:14px;
+}
+.card{
+  background:#fff;
+  border:1px solid #e0ece4;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:28px;
+}
+.start-card{
+  max-width:620px;margin:0 auto;
+  text-align:center;
+}
+.label{display:block;text-align:right;font-weight:800;margin:0 0 9px}
+.input{
+  width:100%;
+  padding:15px 17px;
+  border:2px solid #d8e8dd;
+  border-radius:16px;
+  outline:none;
+  background:#fbfefc;
+  color:var(--dark);
+  transition:.2s;
+}
+.input:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(0,108,53,.09)}
+.primary{
+  border:0;background:var(--green);color:#fff;
+  padding:14px 25px;border-radius:16px;
+  font-weight:800;box-shadow:0 9px 20px rgba(0,108,53,.2);
+  transition:.2s;
+}
+.primary:hover{transform:translateY(-2px);background:#00592c}
+.secondary{
+  border:1px solid #cfe2d5;background:#fff;color:var(--green);
+  padding:13px 20px;border-radius:15px;font-weight:800;
+}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:17px}
+.note{font-size:13px;color:var(--gray);line-height:1.8;margin-top:14px}
+.error{color:var(--danger);font-weight:700;min-height:24px;margin-top:8px}
+footer{
+  text-align:center;padding:24px 15px 30px;
+  color:#496157;font-size:14px;line-height:2;
+}
+footer strong{color:var(--green)}
+/* game */
+.game-top{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:12px;align-items:center;margin:18px 0;
+}
+.team-box,.score-box,.timer-box{
+  background:#fff;border:1px solid #dcebe1;
+  border-radius:18px;padding:13px 16px;
+  box-shadow:0 6px 18px rgba(0,60,30,.06);
+}
+.team-box strong{display:block;font-size:12px;color:var(--gray)}
+.team-box span{font-size:19px;font-weight:900;color:var(--green)}
+.score-box{text-align:center;min-width:115px}
+.timer-box{text-align:center;min-width:125px}
+.box-title{font-size:12px;color:var(--gray)}
+.big-number{font-weight:900;font-size:22px;color:var(--green)}
+.timer{font-variant-numeric:tabular-nums}
+.progress-wrap{
+  height:10px;background:#dfece4;border-radius:999px;overflow:hidden;margin:15px 0 23px;
+}
+.progress{
+  height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--green2),var(--gold));
+  transition:width .3s;
+}
+.station-nav{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:18px;
+}
+.station-tab{
+  border:1px solid #d9e9df;background:#fff;color:#688074;
+  border-radius:15px;padding:11px 8px;font-weight:800;
+}
+.station-tab.active{background:var(--green);color:#fff;border-color:var(--green)}
+.station-tab.done{background:var(--green3);color:var(--green)}
+.station-tab:disabled{opacity:.6;cursor:not-allowed}
+.station-title{text-align:center;margin-bottom:20px}
+.station-title .emoji{font-size:34px}
+.station-title h2{margin:5px 0;color:var(--green);font-size:28px}
+.station-title p{margin:0;color:var(--gray)}
+.question-card{
+  max-width:800px;margin:0 auto;
+  border:1px solid #e1ece5;border-radius:22px;
+  padding:25px;background:#fff;
+}
+.q-number{font-size:13px;color:var(--green);font-weight:900;margin-bottom:10px}
+.question{font-size:22px;font-weight:800;line-height:1.65;margin-bottom:20px}
+.options{display:grid;gap:11px}
+.option{
+  width:100%;text-align:right;
+  border:2px solid #e1ebe5;background:#fbfefc;
+  padding:14px 16px;border-radius:15px;
+  color:var(--dark);font-weight:700;
+  transition:.18s;
+}
+.option:hover:not(:disabled){border-color:var(--green);background:#f0faf4;transform:translateX(-2px)}
+.option.correct{background:#e9f8ef;border-color:#1b8b50;color:#075a2e}
+.option.wrong{background:#fff0ef;border-color:#c94a42;color:#8b201b}
+.option:disabled{cursor:default}
+.feedback{
+  min-height:28px;text-align:center;font-weight:800;margin:15px 0 0;
+}
+.feedback.ok{color:#167542}.feedback.no{color:var(--danger)}
+.question-actions{text-align:center;margin-top:17px}
+.hidden{display:none!important}
+/* final */
+.result{text-align:center}
+.result-medal{font-size:70px}
+.result h2{font-size:32px;color:var(--green);margin:5px 0}
+.result-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0;
+}
+.result-stat{
+  background:var(--green3);border-radius:18px;padding:17px;
+}
+.result-stat strong{display:block;font-size:26px;color:var(--green)}
+.result-stat span{font-size:13px;color:var(--gray)}
+.code-box{
+  background:#f7faf8;border:1px dashed #a8c8b4;
+  border-radius:16px;padding:13px;word-break:break-all;
+  font-family:monospace;font-size:12px;direction:ltr;
+}
+.judge h2{text-align:center;color:var(--green);margin-top:0}
+.result-entry{
+  display:grid;grid-template-columns:1.2fr .7fr .8fr auto;gap:9px;
+  align-items:end;margin-top:12px;
+}
+.compare-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:22px;
+}
+.team-result{
+  border:1px solid #dcebe1;border-radius:20px;padding:18px;background:#fff;
+}
+.team-result h3{margin:0 0 8px;color:var(--green)}
+.team-result .metric{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #eef3ef}
+.winner{
+  margin-top:20px;background:var(--green);color:#fff;
+  border-radius:20px;padding:20px;text-align:center;
+  font-size:21px;font-weight:900;
+}
+.tie{background:#7a6a2c}
+@media(max-width:720px){
+  header{padding-inline:4vw}
+  .card{padding:21px}
+  .game-top{grid-template-columns:1fr 1fr}
+  .team-box{grid-column:1/-1}
+  .station-nav{grid-template-columns:repeat(2,1fr)}
+  .question{font-size:19px}
+  .result-grid{grid-template-columns:1fr}
+  .result-entry{grid-template-columns:1fr 1fr}
+  .result-entry button{grid-column:1/-1}
+  .compare-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top-decoration"></div>
+  <header>
+    <div class="brand">
+      <div class="brand-badge">⚗️</div>
+      <div>ماراثون كيمياء الوطن</div>
+    </div>
+    <button class="small-btn" id="homeBtn" type="button">الرئيسية</button>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="homeScreen" class="screen active">
+      <div class="hero">
+        <div class="flag-mark">🇸🇦</div>
+        <h1>ماراثون كيمياء الوطن</h1>
+        <p class="subtitle">
+          تحدٍّ كيميائي وطني يجمع بين سرعة الحل، ودقة الإجابة، والمعرفة بثروات الوطن واستدامته.
+        </p>
+        <div class="station-strip">
+          <span class="pill">⛏️ ثروات بلادي</span>
+          <span class="pill">💧 كيمياء الماء</span>
+          <span class="pill">🌱 كيمياء خضراء</span>
+          <span class="pill">🧠 التحدي الكيميائي</span>
+        </div>
+      </div>
+
+      <div class="card start-card">
+        <h2 style="color:var(--green);margin-top:0">ابدئي التحدي</h2>
+        <p class="note">كل فريق يدخل اسمه ويخوض الماراثون بشكل مستقل. مجموع التحدي 10 أسئلة.</p>
+        <label class="label" for="teamName">اسم الفريق</label>
+        <input class="input" id="teamName" maxlength="35" placeholder="اكتبي اسم فريقك هنا">
+        <div id="startError" class="error"></div>
+        <div class="actions">
+          <button class="primary" id="startBtn" type="button">🚀 ابدأ الماراثون</button>
+          <button class="secondary" id="judgeBtn" type="button">🏆 لوحة المشرفة</button>
+        </div>
+        <p class="note">
+          الفائز هو الفريق صاحب العدد الأعلى من الإجابات الصحيحة، وعند التعادل يكون الأسرع زمنًا هو الفائز.
+        </p>
+      </div>
+    </section>
+
+    <!-- GAME -->
+    <section id="gameScreen" class="screen">
+      <div class="game-top">
+        <div class="team-box">
+          <strong>الفريق</strong>
+          <span id="gameTeamName">—</span>
+        </div>
+        <div class="score-box">
+          <div class="box-title">النقاط</div>
+          <div class="big-number"><span id="score">0</span> / 10</div>
+        </div>
+        <div class="timer-box">
+          <div class="box-title">الزمن</div>
+          <div class="big-number timer" id="timer">00:00</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
+      <div class="station-nav" id="stationNav"></div>
+
+      <div class="station-title">
+        <div class="emoji" id="stationEmoji">⛏️</div>
+        <h2 id="stationName">ثروات بلادي</h2>
+        <p id="stationDescription">اكتشفي الكيمياء في ثروات الوطن.</p>
+      </div>
+
+      <div class="question-card">
+        <div class="q-number" id="qNumber">السؤال 1 من 4</div>
+        <div class="question" id="questionText"></div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="question-actions">
+          <button class="primary hidden" id="nextBtn" type="button">التالي ➜</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL -->
+    <section id="finalScreen" class="screen">
+      <div class="card result">
+        <div class="result-medal">🏆</div>
+        <h2>أحسنتِ! اكتمل الماراثون</h2>
+        <p id="finalTeam" style="font-size:19px;font-weight:800"></p>
+
+        <div class="result-grid">
+          <div class="result-stat"><strong id="finalScore">0 / 10</strong><span>الإجابات الصحيحة</span></div>
+          <div class="result-stat"><strong id="finalTime">00:00</strong><span>الزمن</span></div>
+          <div class="result-stat"><strong id="finalAccuracy">0%</strong><span>الدقة</span></div>
+        </div>
+
+        <p style="font-weight:800;color:var(--green)">رمز النتيجة — أرسليه للمشرفة إذا كان الفريقان يستخدمان جهازين مختلفين:</p>
+        <div class="code-box" id="resultCode"></div>
+
+        <div class="actions">
+          <button class="primary" id="copyCodeBtn" type="button">📋 نسخ رمز النتيجة</button>
+          <button class="secondary" id="finalJudgeBtn" type="button">🏆 لوحة المشرفة</button>
+          <button class="secondary" id="retryBtn" type="button">🔄 إعادة المحاولة</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- JUDGE -->
+    <section id="judgeScreen" class="screen">
+      <div class="card judge">
+        <h2>🏆 لوحة المشرفة — مقارنة الفريقين</h2>
+        <p class="note" style="text-align:center">
+          أدخلي رمز نتيجة كل فريق. يمكن أخذ الرمز من شاشة النتيجة ونسخه إلى هذه اللوحة.
+        </p>
+
+        <div class="result-entry">
+          <div>
+            <label class="label" for="codeInput">رمز نتيجة الفريق</label>
+            <input class="input" id="codeInput" placeholder="ألصقي الرمز هنا">
+          </div>
+          <div>
+            <label class="label" for="slotInput">الفريق</label>
+            <select class="input" id="slotInput">
+              <option value="0">الفريق الأول</option>
+              <option value="1">الفريق الثاني</option>
+            </select>
+          </div>
+          <div></div>
+          <button class="primary" id="addResultBtn" type="button">إضافة النتيجة</button>
+        </div>
+        <div id="judgeError" class="error"></div>
+
+        <div class="compare-grid">
+          <div class="team-result" id="judgeTeam0">
+            <h3>الفريق الأول</h3>
+            <p class="note">لم تُدخل النتيجة بعد.</p>
+          </div>
+          <div class="team-result" id="judgeTeam1">
+            <h3>الفريق الثاني</h3>
+            <p class="note">لم تُدخل النتيجة بعد.</p>
+          </div>
+        </div>
+
+        <div id="winnerBox" class="winner hidden"></div>
+
+        <div class="actions">
+          <button class="secondary" id="clearJudgeBtn" type="button">مسح النتائج</button>
+          <button class="secondary" id="judgeHomeBtn" type="button">العودة للرئيسية</button>
+        </div>
+
+        <p class="note" style="text-align:center;margin-top:22px">
+          معيار الفوز: عدد الإجابات الصحيحة أولًا، وعند التعادل يُحسم الفوز بالزمن الأقل.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><strong>إعداد المعلمتين / جميلة الصاعدي وصباح الأحمدي</strong></div>
+    <div><strong>مديرة الثانوية السادسة والثلاثون / زينب الأمين</strong></div>
+  </footer>
+</div>
+
+<script>
+const stations = [
+  {
+    name:"ثروات بلادي", emoji:"⛏️",
+    desc:"اكتشفي الكيمياء في ثروات الوطن.",
+    questions:[
+      {q:"ما العنصر الكيميائي الذي يُعد المكوّن الأساسي للماس؟", options:["الحديد","الكربون","السيليكون","النحاس"], answer:1},
+      {q:"ما المركب الذي يُعد المكوّن الرئيس للملح الصخري؟", options:["NaCl","H₂O","CO₂","CaCO₃"], answer:0},
+      {q:"ما نوع المركبات التي يتكون منها النفط بصورة أساسية؟", options:["الهيدروكربونات","الأملاح فقط","الأحماض فقط"], answer:0},
+      {q:"أي المناطق غنية بالثروات المعدنية؟", options:["المنطقة الشرقية","المنطقة الجنوبية","المنطقة الغربية"], answer:2}
+    ]
+  },
+  {
+    name:"كيمياء الماء", emoji:"💧",
+    desc:"الماء ثروة وطنية، وكيمياؤه جزء من استدامته.",
+    questions:[
+      {q:"ما الأيونان الرئيسان المسؤولان عن ملوحة مياه البحر؟", options:["Na⁺ وCl⁻","H⁺ وOH⁻","H₂ وO₂"], answer:0},
+      {q:"الطريقة المستخدمة في تحلية المياه هي:", options:["الظاهرة الأسموزية","التحليل الكهربائي للماء","التناضح العكسي"], answer:2}
+    ]
+  },
+  {
+    name:"كيمياء خضراء", emoji:"🌱",
+    desc:"الكيمياء من أجل بيئة أكثر استدامة.",
+    questions:[
+      {q:"ما الهدف الأساسي للكيمياء الخضراء؟", options:["تقليل النفايات والمخاطر الكيميائية من المصدر","زيادة استهلاك الطاقة","زيادة المنتجات الثانوية"], answer:0},
+      {q:"مبادرة وطنية تهدف إلى الإسهام في تقليل الانبعاثات وزيادة التشجير وحماية البيئة:", options:["تطوير المساجد التاريخية","السعودية الخضراء","الدرعية"], answer:1},
+      {q:"لماذا تُعد المحفزات مهمة في بعض العمليات الصناعية؟", options:["تسرّع التفاعل وتساعد على خفض طاقة التنشيط، وقد تقلل استهلاك الطاقة","تزيد من استهلاك الطاقة","تبطئ التفاعل"], answer:0}
+    ]
+  },
+  {
+    name:"التحدي الكيميائي", emoji:"🧠",
+    desc:"اختبار سريع لربط الكيمياء بالتقنية والطاقة.",
+    questions:[
+      {q:"ما العنصر المستخدم في الخلايا الشمسية؟", options:["الألومنيوم","الحديد","السيليكون"], answer:2}
+    ]
+  }
+];
+
+const $ = id => document.getElementById(id);
+let game = {
+  team:"",
+  station:0,
+  question:0,
+  score:0,
+  start:0,
+  timerId:null,
+  elapsed:0,
+  answered:false
+};
+let judgeResults = [null,null];
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function formatTime(seconds){
+  seconds=Math.max(0,Math.floor(seconds));
+  const m=String(Math.floor(seconds/60)).padStart(2,"0");
+  const s=String(seconds%60).padStart(2,"0");
+  return `${m}:${s}`;
+}
+function totalQuestions(){
+  return stations.reduce((sum,s)=>sum+s.questions.length,0);
+}
+function questionIndex(){
+  let n=0;
+  for(let i=0;i<game.station;i++) n+=stations[i].questions.length;
+  return n+game.question;
+}
+function updateTimer(){
+  game.elapsed=(performance.now()-game.start)/1000;
+  $("timer").textContent=formatTime(game.elapsed);
+}
+function buildStationNav(){
+  const nav=$("stationNav");
+  nav.innerHTML="";
+  stations.forEach((s,i)=>{
+    const b=document.createElement("button");
+    b.className="station-tab";
+    b.type="button";
+    b.textContent=`${i+1}. ${s.emoji} ${s.name}`;
+    b.disabled=true;
+    nav.appendChild(b);
+  });
+  refreshStationNav();
+}
+function refreshStationNav(){
+  [...$("stationNav").children].forEach((b,i)=>{
+    b.classList.remove("active","done");
+    if(i<game.station)b.classList.add("done");
+    if(i===game.station)b.classList.add("active");
+  });
+}
+function renderQuestion(){
+  const station=stations[game.station];
+  const q=station.questions[game.question];
+  $("stationEmoji").textContent=station.emoji;
+  $("stationName").textContent=station.name;
+  $("stationDescription").textContent=station.desc;
+  $("qNumber").textContent=`السؤال ${game.question+1} من ${station.questions.length} — السؤال ${questionIndex()+1} من ${totalQuestions()}`;
+  $("questionText").textContent=q.q;
+  $("feedback").textContent="";
+  $("feedback").className="feedback";
+  $("nextBtn").classList.add("hidden");
+  $("options").innerHTML="";
+  game.answered=false;
+
+  q.options.forEach((option,i)=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.type="button";
+    btn.textContent=`${String.fromCharCode(65+i)}. ${option}`;
+    btn.addEventListener("click",()=>answerQuestion(i));
+    $("options").appendChild(btn);
+  });
+  const pct=(questionIndex()/totalQuestions())*100;
+  $("progress").style.width=pct+"%";
+}
+function answerQuestion(selected){
+  if(game.answered)return;
+  game.answered=true;
+  const station=stations[game.station];
+  const q=station.questions[game.question];
+  const buttons=[...$("options").children];
+  buttons.forEach(b=>b.disabled=true);
+  buttons[q.answer].classList.add("correct");
+
+  if(selected===q.answer){
+    game.score++;
+    $("score").textContent=game.score;
+    $("feedback").textContent="إجابة صحيحة! +1 نقطة";
+    $("feedback").className="feedback ok";
+  }else{
+    buttons[selected].classList.add("wrong");
+    $("feedback").textContent="إجابة غير صحيحة — لا تُحتسب نقطة";
+    $("feedback").className="feedback no";
+  }
+  $("nextBtn").textContent=(game.question<station.questions.length-1) ? "السؤال التالي ➜" :
+    (game.station<stations.length-1 ? "المحطة التالية 🚩" : "إنهاء الماراثون 🏆");
+  $("nextBtn").classList.remove("hidden");
+}
+function nextStep(){
+  if(game.question<stations[game.station].questions.length-1){
+    game.question++;
+    renderQuestion();
+    return;
+  }
+  if(game.station<stations.length-1){
+    game.station++;
+    game.question=0;
+    refreshStationNav();
+    renderQuestion();
+    return;
+  }
+  finishGame();
+}
+function startGame(){
+  const name=$("teamName").value.trim();
+  if(!name){
+    $("startError").textContent="يرجى كتابة اسم الفريق أولًا.";
+    $("teamName").focus();
+    return;
+  }
+  $("startError").textContent="";
+  game={team:name,station:0,question:0,score:0,start:performance.now(),timerId:null,elapsed:0,answered:false};
+  $("gameTeamName").textContent=name;
+  $("score").textContent="0";
+  $("timer").textContent="00:00";
+  buildStationNav();
+  game.timerId=setInterval(updateTimer,250);
+  renderQuestion();
+  showScreen("gameScreen");
+}
+function encodeResult(data){
+  return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+}
+function decodeResult(code){
+  return JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
+}
+function finishGame(){
+  clearInterval(game.timerId);
+  updateTimer();
+  const data={
+    n:game.team,
+    s:game.score,
+    t:Math.floor(game.elapsed),
+    total:totalQuestions(),
+    d:new Date().toISOString()
+  };
+  const code=encodeResult(data);
+  $("finalTeam").textContent=`الفريق: ${game.team}`;
+  $("finalScore").textContent=`${game.score} / ${totalQuestions()}`;
+  $("finalTime").textContent=formatTime(game.elapsed);
+  $("finalAccuracy").textContent=Math.round(game.score/totalQuestions()*100)+"%";
+  $("resultCode").textContent=code;
+  localStorage.setItem("lastMarathonResult",JSON.stringify(data));
+  showScreen("finalScreen");
+}
+function copyText(text){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text);
+  }else{
+    const ta=document.createElement("textarea");
+    ta.value=text;document.body.appendChild(ta);ta.select();
+    document.execCommand("copy");ta.remove();
+  }
+}
+function renderJudgeTeam(index){
+  const el=$("judgeTeam"+index);
+  const r=judgeResults[index];
+  if(!r){
+    el.innerHTML=`<h3>الفريق ${index+1}</h3><p class="note">لم تُدخل النتيجة بعد.</p>`;
+    return;
+  }
+  el.innerHTML=`
+    <h3>${escapeHtml(r.n)}</h3>
+    <div class="metric"><span>الإجابات الصحيحة</span><strong>${r.s} / ${r.total||10}</strong></div>
+    <div class="metric"><span>الزمن</span><strong>${formatTime(r.t)}</strong></div>
+    <div class="metric"><span>الدقة</span><strong>${Math.round(r.s/(r.total||10)*100)}%</strong></div>
+  `;
+}
+function compare(){
+  const a=judgeResults[0],b=judgeResults[1];
+  const box=$("winnerBox");
+  if(!a||!b){box.classList.add("hidden");return}
+  box.classList.remove("hidden","tie");
+  if(a.s>b.s){
+    box.innerHTML=`🏆 الفائز: ${escapeHtml(a.n)}<br><small>عدد الإجابات الصحيحة أعلى.</small>`;
+  }else if(b.s>a.s){
+    box.innerHTML=`🏆 الفائز: ${escapeHtml(b.n)}<br><small>عدد الإجابات الصحيحة أعلى.</small>`;
+  }else if(a.t<b.t){
+    box.innerHTML=`🏆 الفائز: ${escapeHtml(a.n)}<br><small>تعادل الفريقان في الإجابات الصحيحة، والزمن الأقل حسم النتيجة.</small>`;
+  }else if(b.t<a.t){
+    box.innerHTML=`🏆 الفائز: ${escapeHtml(b.n)}<br><small>تعادل الفريقان في الإجابات الصحيحة، والزمن الأقل حسم النتيجة.</small>`;
+  }else{
+    box.classList.add("tie");
+    box.innerHTML="🤝 تعادل الفريقين في عدد الإجابات والزمن.";
+  }
+}
+function addJudgeResult(){
+  const code=$("codeInput").value.trim();
+  $("judgeError").textContent="";
+  if(!code){$("judgeError").textContent="ألصقي رمز النتيجة أولًا.";return}
+  try{
+    const r=decodeResult(code);
+    if(typeof r.n!=="string" || typeof r.s!=="number" || typeof r.t!=="number"){
+      throw new Error();
+    }
+    const slot=Number($("slotInput").value);
+    judgeResults[slot]=r;
+    localStorage.setItem("judgeResults",JSON.stringify(judgeResults));
+    renderJudgeTeam(0);renderJudgeTeam(1);compare();
+    $("codeInput").value="";
+  }catch(e){
+    $("judgeError").textContent="رمز النتيجة غير صحيح أو غير مكتمل.";
+  }
+}
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function openJudge(){
+  showScreen("judgeScreen");
+  try{
+    const saved=JSON.parse(localStorage.getItem("judgeResults")||"null");
+    if(Array.isArray(saved)){judgeResults=saved}
+  }catch(e){}
+  renderJudgeTeam(0);renderJudgeTeam(1);compare();
+}
+$("startBtn").addEventListener("click",startGame);
+$("teamName").addEventListener("keydown",e=>{if(e.key==="Enter")startGame()});
+$("nextBtn").addEventListener("click",nextStep);
+$("judgeBtn").addEventListener("click",openJudge);
+$("finalJudgeBtn").addEventListener("click",openJudge);
+$("judgeHomeBtn").addEventListener("click",()=>showScreen("homeScreen"));
+$("homeBtn").addEventListener("click",()=>{
+  clearInterval(game.timerId);
+  showScreen("homeScreen");
+});
+$("retryBtn").addEventListener("click",()=>{
+  $("teamName").value=game.team;
+  startGame();
+});
+$("copyCodeBtn").addEventListener("click",()=>{
+  copyText($("resultCode").textContent);
+  $("copyCodeBtn").textContent="✅ تم نسخ الرمز";
+  setTimeout(()=>$("copyCodeBtn").textContent="📋 نسخ رمز النتيجة",1400);
+});
+$("addResultBtn").addEventListener("click",addJudgeResult);
+$("clearJudgeBtn").addEventListener("click",()=>{
+  judgeResults=[null,null];
+  localStorage.removeItem("judgeResults");
+  renderJudgeTeam(0);renderJudgeTeam(1);compare();
+});
+$("codeInput").addEventListener("keydown",e=>{if(e.key==="Enter")addJudgeResult()});
+</script>
+</body>
+</html>
